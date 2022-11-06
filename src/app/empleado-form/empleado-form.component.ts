@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Empleado } from '../modelos/empleado.model';
+import { InfoEmpleadosService } from '../servicios/info-empleados.service';
 
 interface Sexo {
   valor: string;
@@ -14,10 +15,14 @@ interface Sexo {
 })
 export class EmpleadoFormComponent implements OnInit{
 
-  @Output() formEmpleado = new EventEmitter<{visibilidadFormulario : boolean, empleadoEdicion : Empleado | null}>();
+  @Output() formEmpleado = new EventEmitter<{
+    visibilidadFormulario : boolean,
+    empleadoEdicion : Empleado | null }>();
+
   @Input('empleadoEdicion') infoEmpleadoEdicion : Empleado | null;
 
   public formularioEmpleado: FormGroup;
+  public posicionEmpleado: number = -1;
 
   /* Creacion de campos del formulario */
   primerNombre = new FormControl('', Validators.required);
@@ -31,7 +36,7 @@ export class EmpleadoFormComponent implements OnInit{
   sexo = new FormControl('', Validators.required);
 
   /* Asignacion de campos del formulario con sus valores y validaciones */
-  constructor(){
+  constructor(private infoEmpleadosService : InfoEmpleadosService){
     this.formularioEmpleado = new FormGroup({
       'primerNombre': this.primerNombre,
       'segundoNombre': this.segundoNombre,
@@ -46,7 +51,6 @@ export class EmpleadoFormComponent implements OnInit{
   }
 
   ngOnInit(){
-    console.log(this.infoEmpleadoEdicion);
     if(this.infoEmpleadoEdicion){
       this.formularioEmpleado.setValue({
         'primerNombre': this.infoEmpleadoEdicion.primerNombre,
@@ -85,12 +89,21 @@ export class EmpleadoFormComponent implements OnInit{
 
   /* Funciones Referentes los botones del formulario */
   onAceptarFormulario(){
-    console.log(this.formularioEmpleado.value);
-    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null});
+    let empleadoIntroduccion : Empleado = this.formularioEmpleado.value;
+    empleadoIntroduccion.idEmpleado = this.infoEmpleadoEdicion?.idEmpleado;
+
+    /* SE ACTUALIZA LA INFORMACION O SE INTRODUCE UN NUEVO EMPLEADO EN LA BASE DE DATOS*/
+    if(this.infoEmpleadoEdicion){
+      this.infoEmpleadosService.modificarEmpleado(empleadoIntroduccion);
+    }
+    else{
+      this.infoEmpleadosService.registrarEmpleado(empleadoIntroduccion);
+    }
+    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null });
   }
 
   onCancelarFormulario(){
-    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null});
+    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null });
   }
 
 }
