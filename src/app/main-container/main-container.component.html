@@ -5,15 +5,15 @@
   <div class="contenedor_acciones">
     <div class="contenedor_busqueda">
       <div class="form__group">
-        <input type="text" class="form__input" id="Cedula" placeholder="Cedula" required="" />
+        <button (click) = "onAgregarEmpleado()" mat-raised-button>Agregar Empleado</button>
+<!--         <input type="text" class="form__input" id="Cedula" placeholder="Cedula" required="" />
         <input type="text" class="form__input" id="Primer Nombre" placeholder="Primer Nombre" required="" />
-        <button mat-raised-button>Buscar</button>
+        <button mat-raised-button>Buscar</button> -->
       </div>
+    </div>
+<!--     <div class="contenedor_agregacion">
 
-    </div>
-    <div class="contenedor_agregacion">
-      <button (click) = "onAgregarEmpleado()" mat-raised-button>Agregar Empleado</button>
-    </div>
+    </div> -->
   </div>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
@@ -74,8 +74,8 @@
 
       <ng-container matColumnDef="editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
-        <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click) = "onAgregarEmpleado()" color="Primary-grey" title="Edit Contact"><mat-icon>edit</mat-icon></button>
+        <td mat-cell *matCellDef="let element; let i = index">
+        <button mat-icon-button (click) = "onEditarEmpleado(i)" color="Primary-grey" title="Edit Contact"><mat-icon>edit</mat-icon></button>
       </td>
       </ng-container>
 

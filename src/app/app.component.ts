@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Empleado } from './modelos/empleado.model';
 
 @Component({
   selector: 'app-root',
@@ -6,13 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Bienestar-Db';
+  title = 'BienestarUD-DB';
 
   isFormularioVisible : boolean = false;
+  empleadoEdicion : Empleado | null;
 
-  onAgregarEmpleado(visibilidadFormulario : boolean){
-    this.isFormularioVisible = visibilidadFormulario;
+  onInicializarFormularioEmpleado(datosRecepcion : {visibilidadFormulario : boolean, empleadoEdicion : Empleado | null}){
+    this.isFormularioVisible = datosRecepcion.visibilidadFormulario;
+   /*  this.empleadoEdicion = (datosRecepcion.empleadoEdicion)?datosRecepcion.empleadoEdicion:null; */
+    this.empleadoEdicion = datosRecepcion.empleadoEdicion;
   }
-
 
 }

@@ -1,37 +1,65 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Empleado } from '../modelos/empleado.model';
+
+interface Sexo {
+  valor: string;
+  valorVista: string;
+}
 
 @Component({
   selector: 'app-empleado-form',
   templateUrl: './empleado-form.component.html',
   styleUrls: ['./empleado-form.component.css']
 })
+export class EmpleadoFormComponent implements OnInit{
 
-export class EmpleadoFormComponent{
-
-  @Output() cerrarFormulario = new EventEmitter<boolean>();
+  @Output() formEmpleado = new EventEmitter<{visibilidadFormulario : boolean, empleadoEdicion : Empleado | null}>();
+  @Input('empleadoEdicion') infoEmpleadoEdicion : Empleado | null;
 
   public formularioEmpleado: FormGroup;
 
+  /* Creacion de campos del formulario */
   primerNombre = new FormControl('', Validators.required);
+  segundoNombre = new FormControl('');
   primerApellido = new FormControl('', Validators.required);
-  cedula = new FormControl('', Validators.required);
+  segundoApellido = new FormControl('', Validators.required);
+  cedula = new FormControl('', [Validators.required, Validators.minLength(8),Validators.maxLength(10)]);
   fechaNacimiento = new FormControl('', Validators.required);
   email = new FormControl('', [Validators.required, Validators.email]);
-  telefono = new FormControl('', Validators.required);
+  telefono = new FormControl('', [Validators.required, Validators.minLength(7),Validators.maxLength(10)]);
   sexo = new FormControl('', Validators.required);
 
+  /* Asignacion de campos del formulario con sus valores y validaciones */
   constructor(){
     this.formularioEmpleado = new FormGroup({
       'primerNombre': this.primerNombre,
+      'segundoNombre': this.segundoNombre,
       'primerApellido' : this.primerApellido,
+      'segundoApellido' : this.segundoApellido,
       'cedula' : this.cedula,
       'fechaNacimiento' : this.fechaNacimiento,
       'email' : this.email,
       'telefono' : this.telefono,
       'sexo' : this.sexo,
-
     })
+  }
+
+  ngOnInit(){
+    console.log(this.infoEmpleadoEdicion);
+    if(this.infoEmpleadoEdicion){
+      this.formularioEmpleado.setValue({
+        'primerNombre': this.infoEmpleadoEdicion.primerNombre,
+        'segundoNombre': this.infoEmpleadoEdicion.segundoNombre,
+        'primerApellido' : this.infoEmpleadoEdicion.primerApellido,
+        'segundoApellido' : this.infoEmpleadoEdicion.segundoApellido,
+        'cedula' : this.infoEmpleadoEdicion.cedula,
+        'fechaNacimiento' : this.infoEmpleadoEdicion.fechaNacimiento,
+        'email' : this.infoEmpleadoEdicion.correo,
+        'telefono' : this.infoEmpleadoEdicion.telefono,
+        'sexo' : this.infoEmpleadoEdicion.sexoBiologico,
+      })
+    }
   }
 
   sexos: Sexo[] = [
@@ -40,28 +68,29 @@ export class EmpleadoFormComponent{
   ];
   sexoSeleccionado = this.sexos[0].valor;
 
-  getErrorEmail() {
-    if (this.email.hasError('required')) {
-      return 'Debes ingresar un correo';
-    }
-    return this.email.hasError('email') ? 'Debes ingresar un correo valido' : '';
-  }
-
+  /* Funciones Referentes a la validacion de datos */
   getErrorMensaje(controlFormulario : FormControl, mensajeControl : string){
     return (controlFormulario.hasError('required'))?'Debes ingresar un '+mensajeControl:'';
   }
+  getErrorEmail() {
+    if (this.email.hasError('required'))
+      return 'Debes ingresar un correo';
+    return this.email.hasError('email') ? 'Debes ingresar un correo valido' : '';
+  }
+  getErrorNumerico(controlFormulario : FormControl, mensajeControl : string){
+    if (controlFormulario.hasError('required'))
+      return 'Debes ingresar un ' + mensajeControl;
+    return (controlFormulario.hasError('minlength') || controlFormulario.hasError('maxlength')) ? 'Debes ingresar un '+ mensajeControl +' valido' : '';
+  }
 
+  /* Funciones Referentes los botones del formulario */
   onAceptarFormulario(){
     console.log(this.formularioEmpleado.value);
-    this.cerrarFormulario.emit(false);
+    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null});
   }
 
   onCancelarFormulario(){
-    this.cerrarFormulario.emit(false);
+    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null});
   }
 
-}
-interface Sexo {
-  valor: string;
-  valorVista: string;
 }

@@ -15,7 +15,7 @@
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill">
         <mat-label>Segundo Nombre</mat-label>
-        <input matInput>
+        <input matInput [formControl]="segundoNombre">
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill" required>
         <mat-label>Primer Apellido</mat-label>
@@ -24,12 +24,16 @@
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill">
         <mat-label>Segundo Apellido</mat-label>
-        <input matInput>
+        <input matInput [formControl]="segundoApellido">
+        <mat-error *ngIf="segundoApellido.invalid">{{getErrorMensaje(segundoApellido, 'apellido')}}</mat-error>
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill" required>
         <mat-label>Cedula</mat-label>
-        <input matInput [formControl]="cedula">
-        <mat-error *ngIf="cedula.invalid">{{getErrorMensaje(cedula, 'cedula')}}</mat-error>
+        <input
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+          matInput [formControl]="cedula"
+        >
+        <mat-error *ngIf="cedula.invalid">{{getErrorNumerico(cedula, 'documento')}}</mat-error>
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill" required>
         <mat-label>Choose a date</mat-label>
@@ -40,14 +44,17 @@
         <mat-error *ngIf="fechaNacimiento.invalid">{{getErrorMensaje(fechaNacimiento, 'fecha nacimiento')}}</mat-error>
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill" required>
-        <mat-label>Enter your email</mat-label>
+        <mat-label>Correo electronico</mat-label>
         <input matInput placeholder="pat@example.com" [formControl]="email">
         <mat-error *ngIf="email.invalid">{{getErrorEmail()}}</mat-error>
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill" required>
         <mat-label>Telefono</mat-label>
-        <input matInput [formControl]="telefono">
-        <mat-error *ngIf="telefono.invalid">{{getErrorMensaje(telefono, 'telefono')}}</mat-error>
+        <input
+          matInput [formControl]="telefono"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+        >
+        <mat-error *ngIf="telefono.invalid">{{getErrorNumerico(telefono, 'telefono')}}</mat-error>
       </mat-form-field>
       <mat-form-field class = "forma-input" appearance="fill" required>
         <mat-label>Sexo Biologico</mat-label>
