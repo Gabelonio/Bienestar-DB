@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@500&family=Poppins:wght@500&display=swap');
+
+table {
+  width: 100%;
+  background-color: rgb(118, 143, 95);
+}
+
+.container{
+  position: relative;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 55px;
+  font-family: 'Poppins', sans-serif;
+}
+.consulta_empleados_titulo{
+  text-align: left;
+}
+.consulta_empleados_titulo h1{
+  font-size: 35px;
+  color:rgb(85, 85, 85);
+  font-family: 'Poppins', sans-serif;
+}
+
+.contenedor_acciones {
+  display: flex;
+}
+
+.contenedor_busqueda, .contenedor_agregacion {
+  flex: 1;
+  padding: 5px;
+}
+.contenedor_agregacion button{
+  margin-right: 0;
+  margin-left:auto;
+  display:block;
+  /*background-color: rgb(34, 37, 31);*/
+}
+
+.form__input {
+  width: 30%;
+  color: #333;
+  font-size: 15px;
+  border-radius: 0.2rem;
+  border-width: 1px;
+  border-color: rgb(231, 231, 231);
+  font-family: 'Poppins', sans-serif;
+  margin-right: 15px;
+}

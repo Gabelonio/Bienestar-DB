@@ -1,0 +1,3 @@
+<app-top-bar></app-top-bar>
+<app-main-container (agregarEmpleado)="onAgregarEmpleado($event)"></app-main-container>
+<app-empleado-form *ngIf = "isFormularioVisible" (cerrarFormulario)="onAgregarEmpleado($event)"></app-empleado-form>

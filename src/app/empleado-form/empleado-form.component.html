@@ -1,0 +1,67 @@
+<div class = "forma-container"></div>
+<div class = "forma">
+  <form [formGroup]="formularioEmpleado" (ngSubmit)="formularioEmpleado.valid && onAceptarFormulario()">
+    <h1>Formulario Empleado</h1>
+    <div>
+<!--       <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="pat@example.com" [formControl]="email">
+        <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field> -->
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Primer Nombre</mat-label>
+        <input matInput [formControl]="primerNombre">
+        <mat-error *ngIf="primerNombre.invalid">{{getErrorMensaje(primerNombre, 'nombre')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill">
+        <mat-label>Segundo Nombre</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Primer Apellido</mat-label>
+        <input matInput [formControl]="primerApellido">
+        <mat-error *ngIf="primerApellido.invalid">{{getErrorMensaje(primerApellido, 'apellido')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill">
+        <mat-label>Segundo Apellido</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Cedula</mat-label>
+        <input matInput [formControl]="cedula">
+        <mat-error *ngIf="cedula.invalid">{{getErrorMensaje(cedula, 'cedula')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" [formControl]="fechaNacimiento">
+        <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="fechaNacimiento.invalid">{{getErrorMensaje(fechaNacimiento, 'fecha nacimiento')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="pat@example.com" [formControl]="email">
+        <mat-error *ngIf="email.invalid">{{getErrorEmail()}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Telefono</mat-label>
+        <input matInput [formControl]="telefono">
+        <mat-error *ngIf="telefono.invalid">{{getErrorMensaje(telefono, 'telefono')}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class = "forma-input" appearance="fill" required>
+        <mat-label>Sexo Biologico</mat-label>
+        <mat-select [(value)]="sexoSeleccionado" [formControl]="sexo">
+          <mat-option></mat-option>
+          <mat-option [value]="sexo.valor" *ngFor="let sexo of sexos">{{ sexo.valorVista }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="sexo.invalid">{{getErrorMensaje(sexo, 'sexo')}}</mat-error>
+      </mat-form-field>
+      <div>
+        <button type = "submit" class = "boton-aceptar" mat-raised-button>Aceptar</button>
+        <button (click)="onCancelarFormulario()" type = "button" class = "boton-cancelar"mat-raised-button>Cancelar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
