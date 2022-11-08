@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Empleado } from '../modelos/empleado.model';
 import { InfoEmpleadosService } from '../servicios/info-empleados.service';
 
@@ -15,11 +16,7 @@ interface Sexo {
 })
 export class EmpleadoFormComponent implements OnInit{
 
-  @Output() formEmpleado = new EventEmitter<{
-    visibilidadFormulario : boolean,
-    empleadoEdicion : Empleado | null }>();
-
-  @Input('empleadoEdicion') infoEmpleadoEdicion : Empleado | null;
+  @Input('empleadoEdicion') infoEmpleadoEdicion : Empleado;
 
   public formularioEmpleado: FormGroup;
   public posicionEmpleado: number = -1;
@@ -32,11 +29,13 @@ export class EmpleadoFormComponent implements OnInit{
   cedula = new FormControl('', [Validators.required, Validators.minLength(8),Validators.maxLength(10)]);
   fechaNacimiento = new FormControl('', Validators.required);
   email = new FormControl('', [Validators.required, Validators.email]);
-  telefono = new FormControl('', [Validators.required, Validators.minLength(7),Validators.maxLength(10)]);
+  telefono = new FormControl('', [Validators.required, Validators.minLength(7),Validators.maxLength(11)]);
   sexo = new FormControl('', Validators.required);
 
   /* Asignacion de campos del formulario con sus valores y validaciones */
-  constructor(private infoEmpleadosService : InfoEmpleadosService){
+  constructor(private infoEmpleadosService : InfoEmpleadosService,
+              private router: Router){
+
     this.formularioEmpleado = new FormGroup({
       'primerNombre': this.primerNombre,
       'segundoNombre': this.segundoNombre,
@@ -99,11 +98,13 @@ export class EmpleadoFormComponent implements OnInit{
     else{
       this.infoEmpleadosService.registrarEmpleado(empleadoIntroduccion);
     }
-    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null });
+    this.router.navigate(['/index']);
+    /* this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null }); */
   }
 
   onCancelarFormulario(){
-    this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null });
+    this.router.navigate(['/index']);
+    //this.formEmpleado.emit({visibilidadFormulario : false, empleadoEdicion : null });
   }
 
 }

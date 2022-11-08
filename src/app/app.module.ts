@@ -21,6 +21,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EmpleadoFormComponent } from './empleado-form/empleado-form.component';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import { IndexComponent } from './rutas/index/index.component';
+import { AppRoutingModule } from './app-routing-module';
+import { FormInsertarComponent } from './rutas/form-insertar/form-insertar.component';
+import { ModificarComponent } from './rutas/modificar/modificar.component';
 
 
 @NgModule({
@@ -28,7 +32,10 @@ import {MatSelectModule} from '@angular/material/select';
     AppComponent,
     TopBarComponent,
     MainContainerComponent,
-    EmpleadoFormComponent
+    EmpleadoFormComponent,
+    IndexComponent,
+    FormInsertarComponent,
+    ModificarComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +55,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatDatepickerModule,
     MatButtonModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

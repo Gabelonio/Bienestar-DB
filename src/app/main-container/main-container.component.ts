@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Empleado } from '../modelos/empleado.model';
 import { InfoEmpleadosService } from '../servicios/info-empleados.service';
 
@@ -11,15 +12,13 @@ import { InfoEmpleadosService } from '../servicios/info-empleados.service';
 })
 export class MainContainerComponent implements AfterViewInit, OnInit {
 
-
   displayedColumns: string[] = ['primerNombre', 'segundoNombre', 'primerApellido', 'segundoApellido','cedula','fechaNacimiento','correo','telefono','sexoBiologico','editar'];
   dataSource: MatTableDataSource<Empleado>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  @Output() formEmpleado = new EventEmitter<{visibilidadFormulario : boolean, empleadoEdicion : Empleado | null}>();
-
-  constructor(private infoEmpleadosService : InfoEmpleadosService){}
+  constructor(private infoEmpleadosService : InfoEmpleadosService,
+              private router: Router){}
 
   ngOnInit(){this.dataSource = new MatTableDataSource<Empleado>(this.infoEmpleadosService.getEmpleados());}
 
@@ -28,12 +27,13 @@ export class MainContainerComponent implements AfterViewInit, OnInit {
   }
 
   onAgregarEmpleado(){
-    this.formEmpleado.emit({visibilidadFormulario : true, empleadoEdicion : null});
+    this.router.navigate(['/formInsertar']);
+    //this.formEmpleado.emit({visibilidadFormulario : true, empleadoEdicion : null});
   }
 
-  onEditarEmpleado(index : number){
+  /*   onEditarEmpleado(index : number){
     this.formEmpleado.emit({visibilidadFormulario : true, empleadoEdicion : this.infoEmpleadosService.getEmpleado(index)})
-  }
+  } */
 
 }
 

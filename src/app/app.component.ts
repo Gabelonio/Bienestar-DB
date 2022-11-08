@@ -8,14 +8,4 @@ import { Empleado } from './modelos/empleado.model';
 })
 export class AppComponent {
   title = 'BienestarUD-DB';
-
-  isFormularioVisible : boolean = false;
-  empleadoEdicion : Empleado | null;
-
-  onInicializarFormularioEmpleado(datosRecepcion : {visibilidadFormulario : boolean, empleadoEdicion : Empleado | null}){
-    this.isFormularioVisible = datosRecepcion.visibilidadFormulario;
-   /*  this.empleadoEdicion = (datosRecepcion.empleadoEdicion)?datosRecepcion.empleadoEdicion:null; */
-    this.empleadoEdicion = datosRecepcion.empleadoEdicion;
-  }
-
 }
