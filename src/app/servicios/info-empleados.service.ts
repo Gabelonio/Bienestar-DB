@@ -1,12 +1,86 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Empleado } from '../modelos/empleado.model';
+import { catchError, retry }  from "rxjs/operators";
+import { Observable, Subject, throwError } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InfoEmpleadosService {
 
-  private datos_Empleados: Empleado[] = [
+  // UBICACION DE LA API
+  URL = 'http://localhost:8089/API';
+
+  // OPCIONES HTTP
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
+
+  error = new Subject<string>();
+
+  constructor(private http: HttpClient) {}
+
+  /* Obtener todos los empleados */
+  getEmpleados(): Observable<Empleado[]> {
+    /* EN ESTA SECCION SE UBICARIARIA OBTENCION DE TODOS LOS EMPLEADOS A TRAVES DE UNA CONSULTA*/
+    return this.http.get<Empleado[]>(this.URL+'/index',{responseType : 'json'}).pipe(retry(1), catchError(this.handleError));
+/*         }), catchError( errorResponse => {
+            return throwError(errorResponse);
+    }); */
+  }
+
+  // HttpClient API get() method => Fetch employee
+  getEmpleado(idEmpleado : number): Observable<Empleado> {
+    return this.http.get<Empleado>(this.URL + '/Empleado/' + idEmpleado).pipe(retry(1), catchError(this.handleError));
+  }
+
+  /* Registro Empleado Nuevo */
+  registrarEmpleado(nuevoEmpleado : Empleado): Observable<Empleado> {
+    return this.http.post<Empleado>(
+        this.URL+'/formInsertar',
+        JSON.stringify(nuevoEmpleado),
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  // HttpClient API put() method => Update employee
+  actualizarEmpleado(nuevaInformacion : Empleado): Observable<Empleado> {
+    return this.http
+      .put<Empleado>(
+        this.URL + '/modificar/' + nuevaInformacion.idEmpleado,
+        JSON.stringify(nuevaInformacion),
+        this.httpOptions
+      )
+      .pipe(retry(1), catchError(this.handleError));
+  }
+  /*
+  modificarEmpleado(nuevaInformacion : Empleado){
+    console.log(nuevaInformacion);
+    /* EN ESTA SECCION SE UBICARIA LA ACTUALIZACION DE UN EMPLEADO, SE USA
+       LA INFORMACION NUEVA Y EL INDICE QUE SOLICITA EL SERVICIO (Se ubicaria en el campo idEmpleado)
+  }*/
+
+  // Error handling
+  handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Get client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Get server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    window.alert(errorMessage);
+    return throwError(() => {
+      return errorMessage;
+    });
+  }
+
+/*   private datos_Empleados: Empleado[] = [
     {"idEmpleado" : 1, "primerNombre":"Elyse","segundoNombre":"Germayne","primerApellido":"Izod","segundoApellido":"Alway","cedula":"1380117117","fechaNacimiento":new Date("8/24/1985"),"correo":"galway0@clickbank.net","telefono":"489 719 5424","sexoBiologico":"masculino"},
     {"idEmpleado" : 2,"primerNombre":"Rowney","segundoNombre":"Padraig","primerApellido":"Richten","segundoApellido":"Mell","cedula":"8906866338","fechaNacimiento":new Date("2/2/1988"),"correo":"pmell1@nbcnews.com","telefono":"254 970 7568","sexoBiologico":"femenino"},
     {"idEmpleado" : 3,"primerNombre":"Dory","segundoNombre":"Faulkner","primerApellido":"Lantaph","segundoApellido":"Larose","cedula":"9472783424","fechaNacimiento":new Date("1/23/1989"),"correo":"flarose2@unicef.org","telefono":"722 816 3378","sexoBiologico":"masculino"},
@@ -35,34 +109,7 @@ export class InfoEmpleadosService {
     {"idEmpleado" : 26,"primerNombre":"Beltran","segundoNombre":"Giustina","primerApellido":"Trappe","segundoApellido":"Ceschini","cedula":"1747009187","fechaNacimiento":new Date("9/4/1996"),"correo":"gceschinip@mapquest.com","telefono":"551 177 3576","sexoBiologico":"masculino"},
     {"idEmpleado" : 27,"primerNombre":"Osborne","segundoNombre":"Gav","primerApellido":"Labbe","segundoApellido":"Berthel","cedula":"8801663231","fechaNacimiento":new Date("3/26/1993"),"correo":"gberthelq@jigsy.com","telefono":"197 789 5069","sexoBiologico":"femenino"},
     {"idEmpleado" : 28,"primerNombre":"Valdemar","segundoNombre":"Aubree","primerApellido":"Stamps","segundoApellido":"Isacsson","cedula":"8811774733","fechaNacimiento":new Date("4/15/1984"),"correo":"aisacssonr@cpanel.net","telefono":"257 387 1496","sexoBiologico":"femenino"},
-  ];
-
-  constructor() { }
-
-  /* Obtener todos los empleados o un empleado */
-  getEmpleados(){
-    /* EN ESTA SECCION SE UBICARIARIA OBTENCION DE TODOS LOS EMPLEADOS A TRAVES DE UNA CONSULTA*/
-    return this.datos_Empleados.slice();
-  }
-
-  getEmpleado(indice : number){
-    /* EN ESTA SECCION SE UBICARIA LA OBTENCION DE UN EMPLEADO, PERO CONSIDERARIA QUE CARGAR UNA VEZ LOS EMPLEADOS
-       EN UN ARREGLO PODRIA FUNCIONAR */
-    return this.datos_Empleados.slice()[indice];
-  }
-
-  registrarEmpleado(nuevoEmpleado : Empleado){
-    console.log(nuevoEmpleado);
-    /* EN ESTA SECCION SE UBICARIA EL REGISTRO DE UN EMPLEADO NUEVO */
-  }
-
-  modificarEmpleado(nuevaInformacion : Empleado){
-    console.log(nuevaInformacion);
-    /* EN ESTA SECCION SE UBICARIA LA ACTUALIZACION DE UN EMPLEADO, SE USA
-       LA INFORMACION NUEVA Y EL INDICE QUE SOLICITA EL SERVICIO (Se ubicaria en el campo idEmpleado)*/
-  }
-
-
+  ]; */
 
 
 }

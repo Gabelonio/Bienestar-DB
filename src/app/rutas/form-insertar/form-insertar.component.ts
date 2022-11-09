@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Empleado } from 'src/app/modelos/empleado.model';
 
 @Component({
   selector: 'app-form-insertar',

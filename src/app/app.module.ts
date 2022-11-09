@@ -25,6 +25,7 @@ import { IndexComponent } from './rutas/index/index.component';
 import { AppRoutingModule } from './app-routing-module';
 import { FormInsertarComponent } from './rutas/form-insertar/form-insertar.component';
 import { ModificarComponent } from './rutas/modificar/modificar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ModificarComponent } from './rutas/modificar/modificar.component';
     MatButtonModule,
     MatNativeDateModule,
     MatSelectModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

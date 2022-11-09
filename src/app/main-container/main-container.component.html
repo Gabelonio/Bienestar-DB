@@ -5,7 +5,7 @@
   <div class="contenedor_acciones">
     <div class="contenedor_busqueda">
       <div class="form__group">
-        <button (click) = "onAgregarEmpleado()" mat-raised-button>Agregar Empleado</button>
+        <button (click) = "onAgregarEmpleado()" mat-raised-button>Registrar Empleado</button>
 <!--         <input type="text" class="form__input" id="Cedula" placeholder="Cedula" required="" />
         <input type="text" class="form__input" id="Primer Nombre" placeholder="Primer Nombre" required="" />
         <button mat-raised-button>Buscar</button> -->
@@ -75,7 +75,7 @@
       <ng-container matColumnDef="editar">
         <th mat-header-cell *matHeaderCellDef> Editar </th>
         <td mat-cell *matCellDef="let element; let i = index">
-        <button mat-icon-button [routerLink] = "['/modificar', i]" href="#" color="Primary-grey" title="Edit Contact"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button [routerLink] = "['/modificar', element.idEmpleado]" href="#" color="Primary-grey" title="Edit Contact"><mat-icon>edit</mat-icon></button>
       </td>
       </ng-container>
 
