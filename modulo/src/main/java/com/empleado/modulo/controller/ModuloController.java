@@ -2,6 +2,7 @@ package com.empleado.modulo.controller;
 
 import com.empleado.modulo.entity.Empleado;
 import com.empleado.modulo.repository.EmpleadoRepository;
+import com.empleado.modulo.service.email.EmailImpl;
 import com.empleado.modulo.service.empleado.EmpleadoServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ModuloController {
 	@Autowired
 	private EmpleadoRepository repositoryEmpleado;
 
+	@Autowired
+	private EmailImpl email;
+
 	@GetMapping({"/", "", "/index", "/home", "/vista"})
 	public String index(Model model) {
 		model.addAttribute("empleados", empleadoService.findAll());
@@ -42,6 +46,7 @@ public class ModuloController {
 		empleadoService.saveEmpleado(empleado);
 		status.setComplete();
 		System.out.println("Empleado insertado con exito");
+		email.send(empleado.getCorreo());
 		return "redirect:index";
 	}
 	
