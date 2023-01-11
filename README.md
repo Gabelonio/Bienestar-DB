@@ -2,9 +2,10 @@
 
 Modulo Realizado en la primer entrega del proyecto en Bases de Datos I.
 
-Las tecnologías usadas son las siguientes :
-- SAP PowerDesigner
-- Oracle DB
+Las tecnologías (Frameworks) usadas son las siguientes :
+- Angular
+- Angular Material
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.
 
