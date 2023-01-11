@@ -1,4 +1,4 @@
-# BienestarDb
+# Bienestar DB
 
 Modulo Realizado en la primer entrega del proyecto en Bases de Datos I.
 
